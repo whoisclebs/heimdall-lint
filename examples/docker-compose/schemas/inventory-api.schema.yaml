@@ -1,0 +1,7 @@
+version: 1
+
+variables:
+  DATABASE_HOST: {type: hostname, required: true}
+  DATABASE_PORT: {type: port, required: true}
+  INVENTORY_TIMEOUT: {type: duration, default: 3s, min: 100ms, max: 30s, description: Timeout for inventory sync}
+  INVENTORY_API_KEY: {type: string, required: true, secret: true}

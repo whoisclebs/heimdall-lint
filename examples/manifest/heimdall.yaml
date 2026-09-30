@@ -1,0 +1,17 @@
+version: 1
+
+applications:
+  reports-api:
+    schema: schemas/reports-api.schema.yaml
+    env:
+      - envs/reports-api-*.env
+
+  inventory-api:
+    schema: schemas/inventory-api.schema.yaml
+    env:
+      - envs/inventory-api.env
+
+  scheduler:
+    schema: schemas/scheduler.schema.yaml
+    env:
+      - envs/scheduler.env

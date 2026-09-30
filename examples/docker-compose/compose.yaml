@@ -1,0 +1,31 @@
+# One Heimdall container validates the whole environment; the applications only
+# start once it exits successfully.
+#
+#   docker build -t heimdall-lint ../..
+#   docker compose up            # valid environment: applications start
+#   ENVS_DIR=./broken docker compose up   # invalid: applications never start
+services:
+  heimdall:
+    image: ${HEIMDALL_IMAGE:-heimdall-lint}
+    volumes:
+      - ${ENVS_DIR:-./envs}:/envs:ro
+      - ./schemas:/schemas:ro
+    command: [lint, --all, /envs, --schema-dir, /schemas]
+
+  reports-api:
+    image: busybox:1.37
+    command: [sh, -c, 'echo "reports-api started with $$QUEUE_PROVIDER"']
+    depends_on:
+      heimdall:
+        condition: service_completed_successfully
+    env_file:
+      - ${ENVS_DIR:-./envs}/reports-api.env
+
+  inventory-api:
+    image: busybox:1.37
+    command: [sh, -c, 'echo "inventory-api started"']
+    depends_on:
+      heimdall:
+        condition: service_completed_successfully
+    env_file:
+      - ${ENVS_DIR:-./envs}/inventory-api.env

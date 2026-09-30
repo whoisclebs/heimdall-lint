@@ -1,0 +1,47 @@
+version: 1
+
+variables:
+  DATABASE_HOST:
+    type: hostname
+    required: true
+    description: Database host
+
+  DATABASE_PORT:
+    type: port
+    required: true
+    description: Database port
+
+  QUEUE_PROVIDER:
+    type: enum
+    required: true
+    values: [KAFKA, RABBITMQ, SQS, NATS]
+    description: Message queue backend
+
+  API_TIMEOUT:
+    type: duration
+    default: 5s
+    min: 100ms
+    max: 30s
+    description: Maximum time to wait for the upstream service
+
+  API_BASE_URL:
+    type: url
+    required: true
+    schemes: [https]
+    description: Upstream API base URL
+
+  API_KEY:
+    type: string
+    required: true
+    secret: true
+    description: Upstream API key
+
+  FEATURE_BETA:
+    type: boolean
+    default: false
+    description: Enable beta features
+
+  LEGACY_API_URL:
+    type: string
+    deprecated: true
+    replacement: API_BASE_URL

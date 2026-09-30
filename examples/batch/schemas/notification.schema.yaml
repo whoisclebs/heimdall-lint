@@ -1,0 +1,5 @@
+version: 1
+
+variables:
+  NOTIFICATION_API_URL: {type: url, required: true, schemes: [https]}
+  LEGACY_NOTIFICATION_URL: {type: string, deprecated: true, replacement: NOTIFICATION_API_URL}
